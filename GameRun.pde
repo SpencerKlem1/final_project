@@ -193,6 +193,21 @@ boolean pieceFall() {
 }
 
 boolean pieceCheck() {
- if (pieceY
+ int lastPieceY;
+ int sumZeros;
+ for( int row = 0; row < 4; row++) {
+  if (sumZeros == 4 ) {
+   lastPieceY = row; 
+  } else {
+   lastPieceY = 4;
+   }
+   for (int col = 0; col < 4; col++) {
+     if (curPiece[row][col] == 0) {
+      sumZeros++;
+     }
+   }
+   if (lastPieceY + pieceY > gridSizeY
+}
+
 }
 //blank line in grid new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
