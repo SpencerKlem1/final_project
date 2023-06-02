@@ -13,6 +13,8 @@ String[] pieces = new String[]{ "sq", "li", "t", "rl", "ll", "rz", "lz"};
 String strPiece;
 int pieceX; //leftmost x of curpiece on grid
 int pieceY; //topmost y of curpiece on grid
+int[] pieceRow = new int[2]; //where piece is in grid
+int[] pieceCol = new int[2]; //where piece is in grid
 
 ArrayList <int[]> grid = new ArrayList<int[]>();
 
@@ -67,8 +69,8 @@ int[] temp;
    }
    posY += pixelSize;
  }
-for (int row = 0; row < 4; row++) {
- for (int col = 0; col < 4; col++) {
+  for (int row = 0; row < curPiece.length; row++)
+    for (int col = 0; col < curPiece[row].length; col++) {
   if (curPiece[row][col] == 2) {
    fill(150);
    square(pieceX * pixelSize, pieceY * pixelSize, pixelSize);
@@ -92,8 +94,8 @@ if (pieceCooldown > 0) {
  pieceCooldown--;
  if (pieceCooldown == 0) {
   pieceActive = false;
-  for (int row = 0; row < 4; row++)
-    for (int col = 0; col < 4; col++) {
+  for (int row = 0; row < curPiece.length; row++)
+    for (int col = 0; col < curPiece[row].length; col++) {
      if (curPiece[row][col] == 2) {
      grid[pieceY + row][pieceX + col] = 1;
      }
@@ -113,7 +115,7 @@ return;
 int[] temp;
 int sum;
 
-for (int row = 0; row < 2; row++) {
+for (int row = 0; row < curPiece.length; row++) {
   for (int col = 0; col < gridSizeX; col++) {
    temp = grid.get(row);
    if (temp[col] != 0) {
@@ -148,47 +150,37 @@ void newPiece () {
  
  switch (pieceNum) {
    case 0:
-    curPiece[0][1] = 2;
-    curPiece[0][2] = 2;
-    curPiece[1][1] = 2;
-    curPiece[1][2] = 2;
+    curPiece = new int[][]{ {2, 2}, 
+                            {2, 2} };
     break;
    case 1:
   //line
-   curPiece[0][0] = 2;
-   curPiece[0][1] = 2;
-   curPiece[0][2] = 2;
-   curPiece[0][3] = 2;
+    curPiece = new int[][]{ {2, 2, 2, 2} };
    break;
   case 2:
-    curPiece[0][0] = 2;
-    curPiece[0][1] = 2;
-    curPiece[0][2] = 2;
-    curPiece[1][1] = 2;
+    curPiece = new int[][]{ {2, 0}, 
+                            {2, 2}, 
+                            {2, 0} };
     break;
   case 3:
-    curPiece[1][0] = 2;
-    curPiece[1][1] = 2;
-    curPiece[1][2] = 2;
-    curPiece[2][2] = 2;
+    curPiece = new int[][]{ {0, 2}, 
+                            {0, 2}, 
+                            {2, 2} };
     break;
   case 4:
-    curPiece[2][0] = 2;
-    curPiece[2][1] = 2;
-    curPiece[2][2] = 2;
-    curPiece[1][2] = 2;
+    curPiece = new int[][]{ {2, 0}, 
+                            {2, 0}, 
+                            {2, 2} };
     break;
   case 5:
-    curPiece[0][1] = 2;
-    curPiece[1][1] = 2;
-    curPiece[1][2] = 2;
-    curPiece[2][2] = 2;
+    curPiece = new int[][]{ {0, 2}, 
+                            {2, 2}, 
+                            {2, 0} };
     break;
   case 6:
-    curPiece[0][2] = 2;
-    curPiece[1][2] = 2;
-    curPiece[1][1] = 2;
-    curPiece[2][1] = 2;
+    curPiece = new int[][]{ {2, 0}, 
+                            {2, 2}, 
+                            {0, 2} };
     break;
  }
 }
@@ -203,21 +195,21 @@ boolean pieceFall() {
 }
 
 boolean pieceCheck() {
- int lastPieceY;
- int sumZeros;
- for( int row = 0; row < 4; row++) {
-  if (sumZeros == 4 ) {
-   lastPieceY = row; 
-  } else {
-   lastPieceY = 4;
+   //piece is in bounds or not
+   if (pieceY + curPiece.length >= gridSizeY) {
+    return false;
+   } else if (pieceX < 0 || pieceX + curPiece[0].length >= gridSizeX) {
+    return false;
    }
-   for (int col = 0; col < 4; col++) {
-     if (curPiece[row][col] == 0) {
-      sumZeros++;
-     }
-   }
-   if (lastPieceY + pieceY > gridSizeY
+   
+   for (int row = 0; row < curPiece.length; row++)  {
+    for (int col = 0; col < curPiece[row].length; col++) {
+     if (curPiece[row][col] == 2 && grid[pieceY + row][pieceX + col] != 0) {
+      return false;
+      }
+    }
+    return true;
 }
 
-}
+
 //blank line in grid new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
