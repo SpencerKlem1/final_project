@@ -69,7 +69,7 @@ int[] temp;
    }
    posY += pixelSize;
  }
-  for (int row = 0; row < curPiece.length; row++)
+  for (int row = 0; row < curPiece.length; row++) {
     for (int col = 0; col < curPiece[row].length; col++) {
   if (curPiece[row][col] == 2) {
    fill(150);
@@ -94,19 +94,16 @@ if (pieceCooldown > 0) {
  pieceCooldown--;
  if (pieceCooldown == 0) {
   pieceActive = false;
-  for (int row = 0; row < curPiece.length; row++)
+  for (int row = 0; row < curPiece.length; row++) {
     for (int col = 0; col < curPiece[row].length; col++) {
      if (curPiece[row][col] == 2) {
      grid[pieceY + row][pieceX + col] = 1;
      }
     }
-     }
+   }
    }
   }
  }
-}
-
-}
 
 void checkTetrisBoard() {
 if (pieceActive == true) {
