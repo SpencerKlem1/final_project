@@ -37,6 +37,21 @@ void draw () {
  }
 }
 
+void keyPressed () {
+ if (key == CODED) {
+  if (keyCode == LEFT) {
+   pieceX--;
+   if (!pieceCheck()) {
+    pieceX++;
+   }
+  } else if (keyCode == LEFT) {
+   pieceX++;
+   if (!pieceCheck()) {
+    pieceX--;
+   }
+  }
+ }
+}
 void reset() {
 
 background(255);
