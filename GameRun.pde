@@ -67,6 +67,14 @@ int[] temp;
    }
    posY += pixelSize;
  }
+for (int row = 0; row < 4; row++) {
+ for (int col = 0; col < 4; col++) {
+  if (curPiece[row][col] == 2) {
+   fill(150);
+   square(pieceX * pixelSize, pieceY * pixelSize, pixelSize);
+  }
+ }
+}
 }
 
 void updateTetrisBoard () {
@@ -84,10 +92,12 @@ if (pieceCooldown > 0) {
  pieceCooldown--;
  if (pieceCooldown == 0) {
   pieceActive = false;
-  for (int row = 0; row < gridSizeY; row++) {
-   for (int col = 0; col < gridSizeX; col++) {
-    if(grid[row][col] == 2) {
-     grid[row][col] = 1;
+  for (int row = 0; row < 4; row++)
+    for (int col = 0; col < 4; col++) {
+     if (curPiece[row][col] == 2) {
+     grid[pieceY + row][pieceX + col] = 1;
+     }
+    }
      }
    }
   }
