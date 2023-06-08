@@ -35,6 +35,7 @@ void draw () {
  drawTetrisBoard();
  //shift pieces down
  if (frameCount % spd == 0) {
+  makeBestMove();
   updateTetrisBoard();
   checkTetrisBoard();
  }
@@ -228,6 +229,14 @@ boolean pieceFall() {
  }
  return true;
 }
+boolean pieceFall(int newX, int newY, int[][] newCurPiece) {
+ pieceY++;
+ if (!pieceCheck(newX, newY, newCurPiece)) {
+ pieceY--;
+ return false;
+ }
+ return true;
+}
 
 boolean pieceCheck() {
    //piece is in bounds or not
@@ -313,5 +322,51 @@ void rotateRight () {
   pieceY--;
  }
 }
+int[] bestPiece;
+void findBestMove() { 
+int pieceWorth;
+int maxPieceWorth = 0;
+for (int rotation = 0; rotation < 3; rotation++) {
+    rotateLeft(); 
+  for (int botY = 19; botY >= 0; botY--) { //botPieceHeight
+
+  for (int botX = 0; botX < 10; botX++) { //botPieceX
+    pieceWorth = 1000 - (20 - botY) * 3;
+
+    if(pieceCheck(botX, botY, curPiece) && !pieceFall()) {
+      for (int pieceRow = 0; pieceRow < curPiece.length; pieceRow++) {
+       for (int pieceCol = 0; pieceCol < curPiece[0].length; pieceCol++) {
+        if(botY + pieceRow + 1 < 20 && grid.get(botY + pieceRow + 1)[botX + pieceCol] == 0) {
+         pieceWorth -= 5; 
+         ;
+        }
+       }
+      }
+      if (pieceWorth > maxPieceWorth) {
+        bestPiece = new int[]{botX, botY, rotation};
+        maxPieceWorth = pieceWorth;
+      }
+    }
+   }
+  
+  }
+  
+ }
+}
+
+void makeBestMove() {
+  findBestMove();
+  pieceX = bestPiece[0];
+  pieceY = bestPiece[1];
+  for (int i = 0; i < bestPiece[2]; i++) {
+   rotateLeft(); 
+  }
+  for(int i = 0; i < 20; i++) {
+   if (!pieceFall()) return; 
+  }
+}
+
+
+
 
 //blank line in grid new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
