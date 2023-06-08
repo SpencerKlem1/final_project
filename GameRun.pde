@@ -22,6 +22,7 @@ int pieceCooldown = 0;
 int rowsRemoved = 0;
 int rowMax = 2;
 
+boolean aiMode = false;
 
 void setup() {
  size(400, 800);
@@ -35,7 +36,9 @@ void draw () {
  drawTetrisBoard();
  //shift pieces down
  if (frameCount % spd == 0) {
+  if (aiMode) {
   makeBestMove();
+  }
   updateTetrisBoard();
   checkTetrisBoard();
  }
@@ -60,6 +63,9 @@ void keyPressed () {
    rotateLeft(); 
   } else if (key == 'e' || key == 'E') {
    rotateRight(); 
+  } else if (key == 'p' || key == 'P') {
+   aiMode = !aiMode; 
+    
   }
  }
 
@@ -337,7 +343,7 @@ for (int rotation = 0; rotation < 3; rotation++) {
       for (int pieceRow = 0; pieceRow < curPiece.length; pieceRow++) {
        for (int pieceCol = 0; pieceCol < curPiece[0].length; pieceCol++) {
         if(botY + pieceRow + 1 < 20 && grid.get(botY + pieceRow + 1)[botX + pieceCol] == 0) {
-         pieceWorth -= 5; 
+         pieceWorth -= 6; 
          ;
         }
        }
