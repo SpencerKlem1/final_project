@@ -13,8 +13,7 @@ String[] pieces = new String[]{ "sq", "li", "t", "rl", "ll", "rz", "lz"};
 String strPiece;
 int pieceX; //leftmost x of curpiece on grid
 int pieceY; //topmost y of curpiece on grid
-int[] pieceRow = new int[2]; //where piece is in grid
-int[] pieceCol = new int[2]; //where piece is in grid
+
 
 ArrayList <int[]> grid = new ArrayList<int[]>();
 
