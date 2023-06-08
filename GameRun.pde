@@ -19,7 +19,8 @@ ArrayList <int[]> grid = new ArrayList<int[]>();
 
 int spd = 20;
 int pieceCooldown = 0;
-
+int rowsRemoved = 0;
+int rowMax = 2;
 
 
 void setup() {
@@ -166,6 +167,11 @@ for (int row = 0; row < curPiece.length; row++) {
      if (sum == 10) {
       grid.remove(row);
       grid.add(0, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+      rowsRemoved++;
+      if (rowsRemoved >= rowMax) {
+       spd--;
+       rowMax *= 2;
+      }
     }
   }
 }
